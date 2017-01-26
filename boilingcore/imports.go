@@ -366,6 +366,12 @@ func newImporter() importer {
 		"types.Hstore": {
 			thirdParty: importList{`"github.com/vattle/sqlboiler/types"`},
 		},
+		"decimal.Decimal": {
+			thirdParty: importList{`"github.com/bodetree/decimal"`},
+		},
+		"decimal.NullDecimal": {
+			thirdParty: importList{`"github.com/bodetree/decimal"`},
+		},
 	}
 
 	return imp
