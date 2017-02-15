@@ -98,6 +98,34 @@ func RawG(query string, args ...interface{}) *Query {
 	return Raw(boil.GetDB(), query, args...)
 }
 
+// Clone returns a copy of the given query that is safe for modifying.
+func Clone(query *Query) *Query {
+	clone := Query{}
+
+	clone.executor = query.executor
+	clone.dialect = query.dialect
+	clone.rawSQL = query.rawSQL
+	clone.load = append(clone.load, query.load...)
+	clone.delete = query.delete
+	for k, v := range query.update {
+		clone.update[k] = v
+	}
+	clone.selectCols = append(clone.selectCols, query.selectCols...)
+	clone.count = query.count
+	clone.from = append(clone.from, query.from...)
+	clone.joins = append(clone.joins, query.joins...)
+	clone.where = append(clone.where, query.where...)
+	clone.in = append(clone.in, query.in...)
+	clone.groupBy = append(clone.groupBy, query.groupBy...)
+	clone.orderBy = append(clone.orderBy, query.orderBy...)
+	clone.having = append(clone.having, query.having...)
+	clone.limit = query.limit
+	clone.offset = query.offset
+	clone.forlock = query.forlock
+
+	return &clone
+}
+
 // Exec executes a query that does not need a row returned
 func (q *Query) Exec() (sql.Result, error) {
 	qs, args := buildQuery(q)
