@@ -271,7 +271,7 @@ func (m *MySQLDriver) TranslateColumnType(c bdb.Column) bdb.Column {
 		switch c.DBType {
 		case "tinyint":
 			// map tinyint(1) to bool if TinyintAsBool is true
-			if TinyintAsBool && c.FullDBType == "tinyint(1)" {
+			if TinyintAsBool && (c.FullDBType == "tinyint(1)" || c.FullDBType == "tinyint(1) unsigned") {
 				c.Type = "null.Bool"
 			} else {
 				c.Type = "null.Int8"
@@ -305,7 +305,7 @@ func (m *MySQLDriver) TranslateColumnType(c bdb.Column) bdb.Column {
 		switch c.DBType {
 		case "tinyint":
 			// map tinyint(1) to bool if TinyintAsBool is true
-			if TinyintAsBool && c.FullDBType == "tinyint(1)" {
+			if TinyintAsBool && (c.FullDBType == "tinyint(1)" || c.FullDBType == "tinyint(1) unsigned") {
 				c.Type = "bool"
 			} else {
 				c.Type = "int8"
